@@ -82,13 +82,17 @@ export default function RegionSelect() {
         // 시군 이름을 누르지 않아도, 지도를 충분히 확대하면 중심에 있는 시군으로 이동
         // (줌 애니메이션 도중에 페이지를 옮기면 카카오맵 내부 상태가 꼬여
         //  다음 지도의 마커가 사라지므로, 애니메이션이 끝나는 300ms 뒤에 이동)
+        // 기준 좌표는 반드시 "이 조건을 처음 만족한 순간" 바로 즉시 읽어야 한다 —
+        // 300ms 뒤(더구나 대표 학교를 찾는 API 호출까지 걸리는 goToCity)에 다시 읽으면
+        // 그 사이 사용자가 계속 확대/이동하고 있었을 때 완전히 다른(먼) 시군 좌표를
+        // 읽어버려 엉뚱한 시군으로 들어가는 문제가 있었음.
         let entered = false
         kakao.maps.event.addListener(map, 'zoom_changed', () => {
           if (entered || map.getLevel() > AUTO_ENTER_LEVEL) return
           entered = true
+          const center = map.getCenter()
+          const cityId = findCityIdAt(center.getLat(), center.getLng())
           setTimeout(() => {
-            const center = map.getCenter()
-            const cityId = findCityIdAt(center.getLat(), center.getLng())
             if (cityId) goToCity(cityId, navigate)
             else entered = false
           }, 300)

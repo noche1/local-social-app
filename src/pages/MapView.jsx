@@ -125,6 +125,15 @@ export default function MapView() {
   const [sdkError, setSdkError] = useState(null)
   const [roadviewStatus, setRoadviewStatus] = useState('loading') // loading | ok | none
 
+  // 다른 시군의 지도로 곧장 넘어오면(라우트만 바뀌고 이 컴포넌트는 그대로 재사용되는
+  // 경우) 이전 시군에서 확인한 기록이 남아있으면 안 되므로, cityId가 바뀔 때마다
+  // 진행 상황을 초기화한다. 예전에 이게 없어서 다른 시군에서 전부 확인한 뒤 여기로
+  // 넘어오면 클릭 한 번 없이 "미션 완료"로 보이는 버그가 있었음.
+  useEffect(() => {
+    setCheckedIds(new Set())
+    setSelectedPlace(null)
+  }, [cityId])
+
   const containerRef = useRef(null)
   const roadviewRef = useRef(null)
   const markerElsRef = useRef({})
