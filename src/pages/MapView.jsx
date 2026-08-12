@@ -348,13 +348,11 @@ export default function MapView() {
         <h2 style={{ margin: 0, fontSize: 'clamp(20px, 1.6vw, 28px)' }}>{city.name}</h2>
       </div>
 
-      <ProgressBar current={checkedIds.size} total={places.length} />
-
-      {hasCloseOverlap && (
-        <p style={{ margin: 0, fontSize: '13px', color: '#8a7f6f', wordBreak: 'keep-all' }}>
-          🔍 마커가 겹쳐 보이면, 지도 오른쪽의 + 버튼을 눌러 확대한 다음 하나씩 눌러보세요.
-        </p>
-      )}
+      <ProgressBar
+        current={checkedIds.size}
+        total={places.length}
+        hint={hasCloseOverlap ? '🔍 마커가 겹쳐 보이면, 지도 오른쪽의 + 버튼을 눌러 확대한 다음 하나씩 눌러보세요.' : null}
+      />
 
       {sdkError && (
         <div

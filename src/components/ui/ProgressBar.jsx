@@ -1,4 +1,4 @@
-export default function ProgressBar({ current, total }) {
+export default function ProgressBar({ current, total, hint }) {
   const percent = total === 0 ? 0 : Math.round((current / total) * 100)
 
   return (
@@ -21,8 +21,13 @@ export default function ProgressBar({ current, total }) {
           }}
         />
       </div>
-      <p style={{ marginTop: '6px', fontSize: '14px', fontWeight: 600 }}>
+      <p style={{ marginTop: '6px', fontSize: '14px', fontWeight: 600, wordBreak: 'keep-all' }}>
         {current} / {total} 확인 완료
+        {hint && (
+          <span style={{ marginLeft: '8px', fontSize: '13px', fontWeight: 400, color: '#8a7f6f' }}>
+            {hint}
+          </span>
+        )}
       </p>
     </div>
   )
