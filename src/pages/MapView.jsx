@@ -104,6 +104,21 @@ export default function MapView() {
   const school =
     savedSchool?.cityId === cityId ? savedSchool : tempSchool?.cityId === cityId ? tempSchool : null
   const places = useMemo(() => getPlacesForCity(cityId, school), [cityId, school])
+  // 마커끼리 실제로 가까우면(도심 밀집 지역) 화면에서 겹쳐 보여 클릭하기 어려울 수 있어,
+  // 이럴 때만 "확대해서 눌러보세요" 안내를 보여준다. 억지로 위치를 벌리면 실제와
+  // 다르게 보일 수 있어(축소된 지도에선 몇 십 px만 밀어도 수백 m 떨어져 보임),
+  // 위치는 정확히 두고 확대라는 정직한 해결책을 안내하는 쪽을 택함.
+  const hasCloseOverlap = useMemo(() => {
+    const OVERLAP_METERS = 250
+    for (let i = 0; i < places.length; i++) {
+      for (let j = i + 1; j < places.length; j++) {
+        if (distanceMeters(places[i].lat, places[i].lng, places[j].lat, places[j].lng) < OVERLAP_METERS) {
+          return true
+        }
+      }
+    }
+    return false
+  }, [places])
 
   const [checkedIds, setCheckedIds] = useState(new Set())
   const [selectedPlace, setSelectedPlace] = useState(null)
@@ -211,6 +226,9 @@ export default function MapView() {
           center: new kakao.maps.LatLng(places[0].lat, places[0].lng),
           level: 4,
         })
+        // 마커가 겹쳐 보일 때 확대해서 볼 수 있도록 확대/축소 버튼을 항상 보여준다
+        // (스크롤·핀치만으론 확대 가능하다는 걸 모르는 아이도 있을 수 있음)
+        map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT)
 
         const bounds = new kakao.maps.LatLngBounds()
 
@@ -332,6 +350,12 @@ export default function MapView() {
 
       <ProgressBar current={checkedIds.size} total={places.length} />
 
+      {hasCloseOverlap && (
+        <p style={{ margin: 0, fontSize: '13px', color: '#8a7f6f', wordBreak: 'keep-all' }}>
+          🔍 마커가 겹쳐 보이면, 지도 오른쪽의 + 버튼을 눌러 확대한 다음 하나씩 눌러보세요.
+        </p>
+      )}
+
       {sdkError && (
         <div
           style={{
@@ -344,6 +368,12 @@ export default function MapView() {
         >
           {sdkError}
         </div>
+      )}
+
+      {allChecked && (
+        <BigButton variant="secondary" onClick={() => navigate(`/quiz/${cityId}`)}>
+          퀴즈 풀러 가기 🧩
+        </BigButton>
       )}
 
       <div
@@ -432,12 +462,6 @@ export default function MapView() {
             <BigButton onClick={() => handleConfirm(selectedPlace)}>확인했어요</BigButton>
           </div>
         </div>
-      )}
-
-      {allChecked && (
-        <BigButton variant="secondary" onClick={() => navigate(`/quiz/${cityId}`)}>
-          퀴즈 풀러 가기 🧩
-        </BigButton>
       )}
 
       {!selectedPlace && <HomeFab />}
