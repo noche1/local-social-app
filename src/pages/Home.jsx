@@ -222,13 +222,20 @@ export default function Home() {
 
             <p style={{ margin: 0, fontSize: '12px', color: '#8a7f6f' }}>
               학교를 정하면(또는 내 위치를 쓰면) 각 시설 중 가장 가까운 곳이 지도에 보여요.
-              (건너뛰어도 탐험할 수 있어요)
             </p>
           </>
         )}
-      </div>
 
-      <BigButton onClick={() => navigate('/regions')}>다른 시·군의 장소 보러 가기</BigButton>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', margin: '2px 0' }}>
+          <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+          <span style={{ fontSize: '12px', color: '#8a7f6f' }}>또는</span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
+        </div>
+
+        <BigButton variant="secondary" onClick={() => navigate('/regions')}>
+          다른 시·군의 장소 보러 가기
+        </BigButton>
+      </div>
     </div>
   )
 }
