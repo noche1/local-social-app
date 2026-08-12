@@ -1,0 +1,36 @@
+:root {
+  --color-primary: #ff9800;
+  --color-primary-dark: #f57c00;
+  --color-secondary: #4caf50;
+  --color-bg: #fffdf7;
+  --color-text: #3a2e1f;
+  --color-border: #e6ddc9;
+  --color-card: #ffffff;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.08);
+
+  font-family: 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+}
