@@ -177,7 +177,7 @@ export default function RegionSelect() {
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px', gap: '12px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-        <p style={{ margin: 0 }}>충남 지도에서 우리 시군을 눌러보세요. 지도를 확대해도 그 지역으로 들어가요!</p>
+        <p style={{ margin: 0 }}>원하는 곳을 눌러보세요. 지도를 확대해도 그 지역으로 들어가요!</p>
         <BigButton variant="secondary" onClick={handleShowMyLocation} disabled={locationStatus === 'loading'}>
           {locationStatus === 'loading' ? '위치 확인 중...' : '내 위치 보기'}
         </BigButton>

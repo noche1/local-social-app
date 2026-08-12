@@ -57,7 +57,7 @@ export default function Home() {
     const lng = Number(item.x)
     const cityId = findCityIdAt(lat, lng)
     if (!cityId) {
-      setMessage('이 학교는 충남 시군 경계 밖이에요. 다른 학교를 골라 주세요.')
+      setMessage('이 학교는 충남 시·군 경계 밖이에요. 다른 학교를 골라 주세요.')
       return
     }
     const picked = {
@@ -94,7 +94,7 @@ export default function Home() {
         const { latitude: lat, longitude: lng } = pos.coords
         const cityId = findCityIdAt(lat, lng)
         if (!cityId) {
-          setMessage('지금 위치가 충남 시군 경계 밖이에요. 학교 이름으로 찾아 주세요.')
+          setMessage('지금 위치가 충남 시·군 경계 밖이에요. 학교 이름으로 찾아 주세요.')
           return
         }
         const picked = { name: '내 위치', lat, lng, cityId }
@@ -128,6 +128,8 @@ export default function Home() {
         학교 이름으로 찾아도 좋고, 내 위치로 바로 찾아봐도 좋아요.
         <br />
         우리가 사는 곳에서 생활에 도움을 주는 장소를 모두 찾으면, 퀴즈도 풀어 볼 수 있어요!
+        <br />
+        다른 시·군의 장소들도 살펴볼 수 있어요.
       </p>
 
       <div
@@ -226,7 +228,7 @@ export default function Home() {
         )}
       </div>
 
-      <BigButton onClick={() => navigate('/regions')}>시군 지도 보러 가기</BigButton>
+      <BigButton onClick={() => navigate('/regions')}>다른 시·군의 장소 보러 가기</BigButton>
     </div>
   )
 }

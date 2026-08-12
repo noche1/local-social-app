@@ -317,7 +317,7 @@ export default function MapView() {
     return (
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
         <p>존재하지 않는 지역이에요.</p>
-        <BigButton onClick={() => navigate('/regions')}>시군 다시 고르기</BigButton>
+        <BigButton onClick={() => navigate('/regions')}>시·군 다시 고르기</BigButton>
       </div>
     )
   }
@@ -326,8 +326,8 @@ export default function MapView() {
     return (
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', padding: '20px', textAlign: 'center' }}>
         <h2 style={{ fontSize: '24px' }}>{city.name}</h2>
-        <p>이 지역은 아직 준비 중이에요. 다른 시군을 골라볼까요?</p>
-        <BigButton onClick={() => navigate('/regions')}>시군 다시 고르기</BigButton>
+        <p>이 지역은 아직 준비 중이에요. 다른 시·군을 골라볼까요?</p>
+        <BigButton onClick={() => navigate('/regions')}>시·군 다시 고르기</BigButton>
       </div>
     )
   }
@@ -343,7 +343,7 @@ export default function MapView() {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px', gap: '16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
         <Link to="/regions" style={{ color: 'var(--color-text)', fontWeight: 600 }}>
-          ‹ 시군 다시 고르기
+          ‹ 시·군 다시 고르기
         </Link>
         <h2 style={{ margin: 0, fontSize: 'clamp(20px, 1.6vw, 28px)' }}>{city.name}</h2>
       </div>

@@ -25,7 +25,7 @@ export default function Result() {
     >
       <h2 style={{ margin: 0, fontSize: 'clamp(24px, 2vw, 30px)' }}>🎉 미션 완료!</h2>
       <p style={{ margin: 0, wordBreak: 'keep-all' }}>
-        {city ? `${city.name}의` : '우리 고장의'} 공공기관을 모두 확인했어요. 교과서 활동지처럼 정리해봤어요.
+        {city ? `${city.name}의` : '우리 고장의'} 우리 생활에 도움을 주는 장소들을 모두 확인했어요. 보고서를 같이 정리해 볼까요?
       </p>
 
       <div
