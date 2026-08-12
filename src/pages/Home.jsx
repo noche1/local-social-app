@@ -172,7 +172,7 @@ export default function Home() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="학교 이름을 입력하세요 (예: 탕정초등학교)"
+                placeholder="학교 이름을 입력하세요 (예: OO초등학교)"
                 style={{
                   flex: 1,
                   padding: '10px 12px',
