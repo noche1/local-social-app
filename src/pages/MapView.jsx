@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useNavigate, useParams, useLocation, Link } from 'react-router-dom'
 import { CITIES, CATEGORIES, getPlacesForCity } from '../data/places'
 import { getSchool } from '../lib/school'
 import { bearingDegrees, distanceMeters, moveToward } from '../lib/geo'
@@ -93,10 +93,16 @@ async function refinePanoId(kakao, client, startPanoId, target) {
 
 export default function MapView() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { cityId } = useParams()
   const city = CITIES.find((c) => c.id === cityId)
-  // 학교가 설정돼 있으면 카테고리마다 학교에서 가장 가까운 시설이 골라진다
-  const school = useMemo(() => getSchool(), [])
+  // 학교가 설정돼 있으면 카테고리마다 학교에서 가장 가까운 시설이 골라진다.
+  // 저장된 '우리 학교'는 그 학교가 있는 시군일 때만 쓰고, 다른 시군을 탐험 중이면
+  // RegionSelect가 넘겨준 그 시군의 대표 학교(tempSchool, 저장되지 않는 임시 기준)를 쓴다.
+  const savedSchool = useMemo(() => getSchool(), [])
+  const tempSchool = location.state?.tempSchool
+  const school =
+    savedSchool?.cityId === cityId ? savedSchool : tempSchool?.cityId === cityId ? tempSchool : null
   const places = useMemo(() => getPlacesForCity(cityId, school), [cityId, school])
 
   const [checkedIds, setCheckedIds] = useState(new Set())

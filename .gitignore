@@ -26,3 +26,6 @@ dist-ssr
 
 # Claude Code local settings (contains machine-specific permissions)
 .claude/settings.local.json
+
+# 대회 제출용 USB 준비 폴더 (로컬 전용, 저장소 소스와 중복)
+USB제출용/

@@ -4,12 +4,25 @@ import { CITIES, CHUNGNAM_CENTER } from '../data/places'
 import { CITY_BOUNDARIES } from '../data/cityBoundaries'
 import { findCityIdAt } from '../lib/geo'
 import { getSchool } from '../lib/school'
+import { resolveDefaultSchool } from '../lib/defaultSchool'
 import { loadKakaoMapSdk } from '../lib/kakaoLoader'
 import BigButton from '../components/ui/BigButton'
 import HomeFab from '../components/ui/HomeFab'
 
 // 이 레벨 이하로 확대하면 지도 중심에 있는 시군으로 자동 이동
 const AUTO_ENTER_LEVEL = 7
+
+// 우리 학교가 이 시군에 있으면 그대로 쓰고, 없으면(다른 지역 탐험) 그 시군의
+// 대표 학교를 임시 기준으로 찾아 함께 넘겨준다. localStorage의 '우리 학교'는 건드리지 않는다.
+async function goToCity(cityId, navigate) {
+  const school = getSchool()
+  if (school && school.cityId === cityId) {
+    navigate(`/map/${cityId}`)
+    return
+  }
+  const tempSchool = await resolveDefaultSchool(cityId)
+  navigate(`/map/${cityId}`, tempSchool ? { state: { tempSchool } } : undefined)
+}
 
 function createCityMarkerElement(city, isSchoolCity) {
   const el = document.createElement('div')
@@ -76,7 +89,7 @@ export default function RegionSelect() {
           setTimeout(() => {
             const center = map.getCenter()
             const cityId = findCityIdAt(center.getLat(), center.getLng())
-            if (cityId) navigate(`/map/${cityId}`)
+            if (cityId) goToCity(cityId, navigate)
             else entered = false
           }, 300)
         })
@@ -86,7 +99,7 @@ export default function RegionSelect() {
         const school = getSchool()
         CITIES.forEach((city) => {
           const el = createCityMarkerElement(city, school?.cityId === city.id)
-          el.addEventListener('click', () => navigate(`/map/${city.id}`))
+          el.addEventListener('click', () => goToCity(city.id, navigate))
 
           new kakao.maps.CustomOverlay({
             map,
